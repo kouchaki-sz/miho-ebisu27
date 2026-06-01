@@ -4,7 +4,7 @@ import { auth, db } from "../lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { collection, addDoc, onSnapshot, orderBy, query, deleteDoc, doc } from "firebase/firestore";
 import Link from "next/link";
-import { GoogleAuthProvider, signInWithRedirect, signOut, getRedirectResult } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 export default function Home() {
   const [user] = useAuthState(auth);
@@ -54,7 +54,7 @@ export default function Home() {
 
   const login = () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+    signInWithPopup(auth, provider);
   };
 
   if (!user) return (
