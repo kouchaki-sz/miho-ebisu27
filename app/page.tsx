@@ -5,6 +5,7 @@ import { GoogleAuthProvider, signInWithRedirect, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { collection, addDoc, onSnapshot, orderBy, query, deleteDoc, doc } from "firebase/firestore";
 import Link from "next/link";
+import { GoogleAuthProvider, signInWithRedirect, signOut, getRedirectResult } from "firebase/auth";
 
 export default function Home() {
   const [user] = useAuthState(auth);
@@ -12,6 +13,9 @@ export default function Home() {
   const [events, setEvents] = useState<any[]>([]);
   const [noticeText, setNoticeText] = useState("");
 
+  useEffect(() => {
+    getRedirectResult(auth).catch(console.error);
+  }, []);
   useEffect(() => {
     if (!user) return;
     const unsub1 = onSnapshot(query(collection(db, "notices"), orderBy("createdAt", "desc")), (snap) => {
