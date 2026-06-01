@@ -18,7 +18,7 @@ const localizer = dateFnsLocalizer({
 
 export default function CalendarPage() {
   const [user] = useAuthState(auth);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ title: "", start: "", end: "", location: "", memo: "" });
 
