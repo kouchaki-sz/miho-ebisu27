@@ -58,7 +58,7 @@ export default function GoalsPage() {
     setEditingTitle("");
   };
 
-  const deleteGoal = async (id) => {
+  const deleteGoal = async (id: string) => {
     if (confirm("Delete this goal?")) {
       await deleteDoc(doc(db, "goals", id));
     }
@@ -74,26 +74,24 @@ export default function GoalsPage() {
     return acc;
   }, {});
 
-  if (!user) return <div className="flex items-center justify-center h-screen">繝ｭ繧ｰ繧､繝ｳ縺励※縺上□縺輔＞</div>;
+  if (!user) return <div className="flex items-center justify-center h-screen">Login required</div>;
 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex items-center gap-3 mb-6">
-        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600">竊・繝幢ｿｽE繝</Link>
-        <h1 className="text-2xl font-medium">逶ｮ讓咏ｮ｡逅・/h1>
+        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600">&larr; Home</Link>
+        <h1 className="text-2xl font-medium">Goals</h1>
       </div>
 
-      {/* 繧ｿ繝・*/}
       <div className="flex gap-2 mb-4">
         <button onClick={() => setTab("monthly")} className={`px-4 py-2 rounded-lg text-sm font-medium ${tab === "monthly" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600"}`}>
-          譛域ｬ｡逶ｮ讓・
+          Monthly
         </button>
         <button onClick={() => setTab("yearly")} className={`px-4 py-2 rounded-lg text-sm font-medium ${tab === "yearly" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600"}`}>
-          蟷ｴ谺｡逶ｮ讓・
+          Yearly
         </button>
       </div>
 
-      {/* 譛滄俣驕ｸ謚・*/}
       <div className="mb-4">
         {tab === "monthly" ? (
           <input type="month" className="border rounded-lg p-2 text-sm" value={period} onChange={(e) => setPeriod(e.target.value)} />
@@ -104,37 +102,30 @@ export default function GoalsPage() {
         )}
       </div>
 
-      {/* 逶ｮ讓呻ｿｽE蜉・*/}
       <div className="flex gap-2 mb-6">
-        <select
-          className="border rounded-lg p-2 text-sm"
-          value={selectedMember}
-          onChange={(e) => setSelectedMember(e.target.value)}
-        >
+        <select className="border rounded-lg p-2 text-sm" value={selectedMember} onChange={(e) => setSelectedMember(e.target.value)}>
           {members.map((m: any) => (
             <option key={m.id} value={m.name}>{m.name}</option>
           ))}
         </select>
         <input
           className="flex-1 border rounded-lg p-2 text-sm"
-          placeholder="逶ｮ讓吶ｒ蜈･蜉・.."
+          placeholder="Enter goal..."
           value={newGoal}
           onChange={(e) => setNewGoal(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && addGoal()}
         />
-        <button onClick={addGoal} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">霑ｽ蜉</button>
+        <button onClick={addGoal} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">Add</button>
       </div>
 
-      {/* 繝｡繝ｳ繝撰ｿｽE邂｡逅・・ｽ・ｽ繝ｳ繧ｯ */}
       {members.length === 0 && (
         <p className="text-sm text-orange-500 mb-4">
-          蜈医↓ <Link href="/members" className="underline">繝｡繝ｳ繝撰ｿｽE邂｡逅・/Link> 縺ｧ繝｡繝ｳ繝撰ｿｽE繧定ｿｽ蜉縺励※縺上□縺輔＞
+          Please add members in <Link href="/members" className="underline">Member Management</Link> first.
         </p>
       )}
 
-      {/* 逶ｮ讓吩ｸ隕ｧ */}
       {Object.keys(grouped).length === 0 ? (
-        <p className="text-sm text-gray-400">縺難ｿｽE譛滄俣縺ｮ逶ｮ讓呻ｿｽE縺ｾ縺縺ゅｊ縺ｾ縺帙ｓ</p>
+        <p className="text-sm text-gray-400">No goals for this period</p>
       ) : (
         <div className="space-y-6">
           {Object.entries(grouped).map(([name, gs]: any) => (
@@ -152,15 +143,15 @@ export default function GoalsPage() {
                           onKeyDown={(e) => e.key === "Enter" && saveEdit()}
                           autoFocus
                         />
-                        <button onClick={saveEdit} className="px-3 py-1 bg-blue-600 text-white rounded-lg text-xs">菫晏ｭ・/button>
-                        <button onClick={() => setEditingId(null)} className="px-3 py-1 border rounded-lg text-xs">繧ｭ繝｣繝ｳ繧ｻ繝ｫ</button>
+                        <button onClick={saveEdit} className="px-3 py-1 bg-blue-600 text-white rounded-lg text-xs">Save</button>
+                        <button onClick={() => setEditingId(null)} className="px-3 py-1 border rounded-lg text-xs">Cancel</button>
                       </div>
                     ) : (
                       <>
                         <span className="text-sm">{g.title}</span>
                         <div className="flex gap-3">
-                          <button onClick={() => startEdit(g)} className="text-xs text-gray-400 hover:text-blue-500">邱ｨ髮・/button>
-                          <button onClick={() => deleteGoal(g.id)} className="text-xs text-gray-300 hover:text-red-400">蜑企勁</button>
+                          <button onClick={() => startEdit(g)} className="text-xs text-gray-400 hover:text-blue-500">Edit</button>
+                          <button onClick={() => deleteGoal(g.id)} className="text-xs text-gray-300 hover:text-red-400">Delete</button>
                         </div>
                       </>
                     )}
@@ -174,4 +165,3 @@ export default function GoalsPage() {
     </div>
   );
 }
-
