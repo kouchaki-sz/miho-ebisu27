@@ -49,7 +49,7 @@ export default function CalendarPage() {
     setShowForm(false);
   };
 
-  const handleDelete = async (event) => {
+  const handleDelete = async (event: any) => {
     if (confirm(`「${event.title}」を削除しますか？`)) {
       await deleteDoc(doc(db, "events", event.id));
     }
