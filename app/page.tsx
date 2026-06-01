@@ -12,13 +12,7 @@ export default function Home() {
   const [events, setEvents] = useState<any[]>([]);
   const [noticeText, setNoticeText] = useState("");
 
-  useEffect(() => {
-    getRedirectResult(auth).then((result) => {
-      if (result?.user) {
-        console.log("Logged in:", result.user.displayName);
-      }
-    }).catch(console.error);
-  }, []);
+  
   useEffect(() => {
     if (!user) return;
     const unsub1 = onSnapshot(query(collection(db, "notices"), orderBy("createdAt", "desc")), (snap) => {
