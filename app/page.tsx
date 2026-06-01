@@ -13,7 +13,11 @@ export default function Home() {
   const [noticeText, setNoticeText] = useState("");
 
   useEffect(() => {
-    getRedirectResult(auth).catch(console.error);
+    getRedirectResult(auth).then((result) => {
+      if (result?.user) {
+        console.log("Logged in:", result.user.displayName);
+      }
+    }).catch(console.error);
   }, []);
   useEffect(() => {
     if (!user) return;
