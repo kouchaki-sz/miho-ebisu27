@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function MembersPage() {
   const [user] = useAuthState(auth);
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState<any[]>([]);
   const [newMember, setNewMember] = useState("");
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function MembersPage() {
   };
 
   const deleteMember = async (id) => {
-    if (confirm("このメンバーを削除しますか？")) {
+    if (confirm("こ�Eメンバ�Eを削除しますか�E�E)) {
       await deleteDoc(doc(db, "members", id));
     }
   };
@@ -38,14 +38,14 @@ export default function MembersPage() {
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex items-center gap-3 mb-6">
-        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600">← ホーム</Link>
-        <h1 className="text-2xl font-medium">メンバー管理</h1>
+        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600">ↁEホ�Eム</Link>
+        <h1 className="text-2xl font-medium">メンバ�E管琁E/h1>
       </div>
 
       <div className="flex gap-2 mb-6">
         <input
           className="flex-1 border rounded-lg p-2 text-sm"
-          placeholder="メンバー名を入力..."
+          placeholder="メンバ�E名を入劁E.."
           value={newMember}
           onChange={(e) => setNewMember(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && addMember()}
@@ -55,7 +55,7 @@ export default function MembersPage() {
 
       <div className="space-y-2">
         {members.length === 0 ? (
-          <p className="text-sm text-gray-400">メンバーがまだいません</p>
+          <p className="text-sm text-gray-400">メンバ�EがまだぁE��せん</p>
         ) : (
           members.map((m: any) => (
             <div key={m.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
